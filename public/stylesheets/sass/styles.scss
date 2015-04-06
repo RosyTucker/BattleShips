@@ -1,0 +1,18 @@
+$green: #0e8f47;
+$pink: #ff2564;
+
+$font: 'Open Sans', 'sans-serif';
+
+body{
+  font-family: $font;
+
+  h1{
+    font-size: 30pt;
+    color: $green;
+  }
+
+  h2{
+    font-size: 20pt;
+    color: $pink;
+  }
+}
