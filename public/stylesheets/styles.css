@@ -1,1 +1,10 @@
-body{font-family:"Open Sans","sans-serif"}body h1{font-size:30pt;color:#0e8f47}body h2{font-size:20pt;color:#ff2564}
+body {
+  font-family: "Open Sans", "sans-serif"; }
+  body h1 {
+    font-size: 30pt;
+    color: #0e8f47; }
+  body h2 {
+    font-size: 20pt;
+    color: #ff2564; }
+  body #board-canvas {
+    background-color: #ff2564; }

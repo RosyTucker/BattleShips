@@ -2,3 +2,5 @@
 dump.rdb
 .sass-cache/*
 .idea/*
+*.scssc
+public/stylesheets/styles.css
