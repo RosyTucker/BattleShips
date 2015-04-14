@@ -3,7 +3,7 @@
 
 //Server
 EthernetClient client;
-byte serverIP[] = { 10, 93, 20, 76 };
+byte serverIP[] = { 192, 168, 0, 8 };
 int serverPort = 9456;
 
 //Your Arduino
@@ -13,7 +13,7 @@ void setup() {
   randomSeed(analogRead(0));
   configureSerial();
   configureEthernet();
-  postJSON("/setup", "{\"grid\": \"0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0\"}");
+  postJSON("/setup", "{\"grid\":\"0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0\"}");
 }
 
 void loop() {    
@@ -37,16 +37,20 @@ void postJSON(String route, String jsonData) {
     Serial.println("Posting: ");
     Serial.print(jsonData);
     if (client.connected()) {
-      String newLine = "\n";
-      String requestLine1 = "POST " + route + " HTTP/1.1";
-      String requestLine2 = "Host: 10.93.20.76:" + serverPort;
-      String requestLine3 = "Accept: */*";
-      String requestLine4 = "Content-Type: application/json";
-      String requestLine5 = "Content-Length: " + jsonData.length();
-      client.println(requestLine1 + newLine + requestLine2 + newLine + requestLine3 + newLine + requestLine4 + newLine + requestLine5 + newLine + newLine + jsonData);
-      Serial.println(" -- Posted");
+      client.print(createRequest(route, serverPort, jsonData));
+      Serial.println(" --- Posted");
     }
     client.stop();
+}
+
+
+String createRequest(String route, int serverPort, String data){
+  return "POST " + route + " HTTP/1.1\r\n" +
+          "Host: 192.168.0.8:" + serverPort + "\r\n" +
+          "Accept: */*\r\nContent-Type: application/json\r\n" +
+          "Content-Length: " + data.length() + "\r\n" + 
+          "\r\n" +
+          data;
 }
 
 void configureSerial() {
