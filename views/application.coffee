@@ -7,8 +7,7 @@ socket.onmessage = (e) ->
   handleMove e.data
 socket.onclose = () -> console.log 'socket closed'
 cellSize = 40
-numberOfRows = 12
-numberOfColumns = 12
+gridSize = 12
 canvas = null
 
 $ ->
@@ -16,20 +15,22 @@ $ ->
   resizeCanvas(canvas)
 
 handleMove = (data) ->
-  move = JSON.parse(data).move
-  $('#xValue').text(move.x)
-  $('#yValue').text(move.y)
+  console.log(data)
+  move = JSON.parse(data)
+  $('#xValue').text(move.gridPosition.xPos)
+  $('#yValue').text(move.gridPosition.yPos)
   colourSquare(move)
 
 resizeCanvas = (canvas) ->
   console.log('resizing: ' + canvas)
-  canvas.height = cellSize * numberOfRows
-  canvas.width = cellSize * numberOfColumns
+  canvas.height = cellSize * gridSize
+  canvas.width = cellSize * gridSize
 
 createDrawingContext = (canvas) ->
   return canvas.getContext '2d'
 
 colourSquare = (move, context) ->
   context = createDrawingContext(canvas)
-  context.fillStyle = '#C02942'
-  context.fillRect move.x * cellSize, move.y*cellSize, cellSize, cellSize
+  console.log(move)
+  context.fillStyle = if move.isHit then '#0e8f47' else '#CC4455'
+  context.fillRect move.gridPosition.xPos * cellSize, move.gridPosition.yPos * cellSize, cellSize, cellSize
