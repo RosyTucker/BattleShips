@@ -1,10 +1,14 @@
 #include <SPI.h>
 #include <Ethernet.h>
-
 //Server
 EthernetClient client;
-byte serverIP[] = { 192, 168, 0, 8 };
+byte serverIP[] = { 10, 93, 20, 76 };
+String server = "10.93.20.76";
 int serverPort = 9456;
+int buttonPin = 12;
+int setupLedPin = 8;
+int moveLedPin = 2;
+bool isSetup = false;
 
 //Your Arduino
 byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xBC, 0xAA };
@@ -13,15 +17,29 @@ void setup() {
   randomSeed(analogRead(0));
   configureSerial();
   configureEthernet();
-  postJSON("/setup", "{\"grid\":\"0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0\"}");
+  pinMode(buttonPin, INPUT);
+  pinMode(setupLedPin, OUTPUT);
+  pinMode(moveLedPin, OUTPUT);
 }
 
-void loop() {    
-  int xValue = random(0,12);
-  int yValue = random(0,12);
-  String moveJson = createMove(xValue, yValue);
-  postJSON("/makeMove", moveJson);
-  delay(1000);
+void loop() {  
+  if(digitalRead(buttonPin) == HIGH){
+      digitalWrite(setupLedPin, HIGH);
+      delay(200);
+      isSetup = true;
+      Serial.println("ButtonPressed");
+      String boatsJson = "{\"boats\":[{\"s\":\"0,0\",\"e\":\"0,4\"},{\"s\":\"2,4\",\"e\":\"2,5\"},{\"s\":\"9,0\",\"e\":\"9,2\"},{\"s\":\"6,7\",\"e\":\"6,9\"},{\"s\":\"5,6\",\"e\":\"7,6\"}]}";
+      postJSON("/setup", boatsJson);
+      digitalWrite(setupLedPin, LOW);
+  }else if(isSetup == true){
+       digitalWrite(moveLedPin, HIGH);
+       int xValue = random(0,10);
+       int yValue = random(0,10);
+       String moveJson = createMove(xValue, yValue); 
+       postJSON("/makeMove", moveJson);
+       digitalWrite(moveLedPin, LOW);
+       delay(200);
+   }
 }
 
 String createMove(int xValue, int yValue) {
@@ -33,46 +51,40 @@ String createMove(int xValue, int yValue) {
 }
 
 void postJSON(String route, String jsonData) {
-    connectClient();
-    Serial.println("Posting: ");
-    Serial.print(jsonData);
-    if (client.connected()) {
-      client.print(createRequest(route, serverPort, jsonData));
-      Serial.println(" --- Posted");
+    if (connectClient()) {
+       client.println("POST " + route + " HTTP/1.1");
+       client.println(createRequestMetaData(serverPort, jsonData));
+       client.println();
+       client.println();
+       client.println(jsonData);
+       client.stop();
     }
-    client.stop();
 }
 
 
-String createRequest(String route, int serverPort, String data){
-  return "POST " + route + " HTTP/1.1\r\n" +
-          "Host: 192.168.0.8:" + serverPort + "\r\n" +
-          "Accept: */*\r\nContent-Type: application/json\r\n" +
-          "Content-Length: " + data.length() + "\r\n" + 
-          "\r\n" +
-          data;
+String createRequestMetaData(int serverPort, String data){
+    return  "Host: " + server + ":" + String(serverPort) + "\r\nConnection: close\r\nAccept: */*\r\nContent-Type: application/json\r\nContent-Length: " + String(data.length());
 }
 
 void configureSerial() {
     Serial.begin(9600);
     while (!Serial) {
-      ; // wait for serial port to connect. Needed for Leonardo only
+      ;
     }
-    Serial.println("Serial ready");
 }
 
 void configureEthernet() {
-    Serial.println("Configuring ethernet");
     if (Ethernet.begin(mac) == 1) {
         Serial.print("Configured Ethernet with IP: ");
         Serial.println(Ethernet.localIP());
         connectClient();
-        delay(1000); //wait to initialise
+        delay(1000);
     }else{
         Serial.println("Could not configure Ethernet");
     }
 }
 
-void connectClient() {
+bool connectClient() {
    client.connect(serverIP, serverPort);
+   return client.connected();
 }
