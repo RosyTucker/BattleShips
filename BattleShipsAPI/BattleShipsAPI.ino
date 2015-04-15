@@ -28,7 +28,7 @@ void loop() {
       delay(200);
       isSetup = true;
       Serial.println("ButtonPressed");
-      String boatsJson = "{\"boats\":[{\"s\":\"0,0\",\"e\":\"0,4\"},{\"s\":\"2,4\",\"e\":\"2,5\"},{\"s\":\"9,0\",\"e\":\"9,2\"},{\"s\":\"6,7\",\"e\":\"6,9\"},{\"s\":\"5,6\",\"e\":\"7,6\"}]}";
+      String boatsJson = "{\"boats\":[{\"s\":\"0,0\",\"e\":\"0,4\"},{\"s\":\"2,4\",\"e\":\"2,5\"},{\"s\":\"9,0\",\"e\":\"9,2\"},{\"s\":\"6,7\",\"e\":\"6,9\"},{\"s\":\"5,6\",\"e\":\"8,6\"}]}";
       postJSON("/setup", boatsJson);
       digitalWrite(setupLedPin, LOW);
   }else if(isSetup == true){
