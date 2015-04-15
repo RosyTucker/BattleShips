@@ -7,9 +7,8 @@ class GridPosition
     @y_pos = y_pos
   end
 
-  def self.from_json json
-    position_json_object = JSON.parse(json)['move']
-    GridPosition.new position_json_object['x'], position_json_object['y']
+  def self.from_json_object json_object
+    GridPosition.new json_object['x'], json_object['y']
   end
 
   def to_json *options

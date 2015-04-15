@@ -7,7 +7,7 @@ socket.onmessage = (e) ->
   handleMove e.data
 socket.onclose = () -> console.log 'socket closed'
 cellSize = 40
-gridSize = 12
+gridSize = 10
 canvas = null
 
 $ ->

@@ -6,3 +6,6 @@ gem 'sass', '~>3.2.1'
 gem 'coffee-script'
 gem 'em-websocket'
 gem 'thin'
+
+gem 'rspec', :require => false, :group => :test
+gem 'simplecov', :require => false, :group => :test
