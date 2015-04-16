@@ -12,11 +12,16 @@ WebSocketClient webSocketClient;
 //Arduino
 int transmitPin = 2;
 int errorPin = 8;
+int buttonPin = 9;
 byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xBC, 0xAA };
+
+// Game
+bool registered = false;
 
 void setup() {
   pinMode(transmitPin, OUTPUT);
   pinMode(errorPin, OUTPUT);
+  pinMode(buttonPin, INPUT);
   setupSerial();
   setupEthernet();
   setupWebSocket();
@@ -24,23 +29,41 @@ void setup() {
 
 void loop() {
   if (client.connected()) {
-    digitalWrite(errorPin, LOW);
-    digitalWrite(transmitPin, HIGH);
-    sendMove();
-    digitalWrite(transmitPin, LOW);
+    if(digitalRead(buttonPin) == HIGH) {
+      registered = false;
+      return;
+    }
+    if(!registered) {
+      Serial.println("Printing");
+      digitalWrite(transmitPin, HIGH);
+      registerAsPlayer();
+      digitalWrite(transmitPin, LOW);
+    } else {
+      digitalWrite(errorPin, LOW);
+      digitalWrite(transmitPin, HIGH);
+      recieveMove();
+      sendMove();
+      digitalWrite(transmitPin, LOW);
+    }
   } else {
     Serial.println("Client disconnected.");
     digitalWrite(errorPin, HIGH);
   }
+}
+
+void registerAsPlayer() {
+  String registration = "{\"type\":\"register\",\"data\":{\"boats\":[{\"s\":\"2,3\",\"e\":\"4,5\"},{\"s\":\"8,8\",\"e\":\"8,9\"}]}}";
+  webSocketClient.sendData(registration);
   delay(2000);
+  registered = true;
 }
 
 void recieveMove() {
   String data;
-  webSocketClient.getData(data);
-  if (data.length() > 0) {
-    Serial.println(data);
+  while (data.length() <= 0) {
+      webSocketClient.getData(data);
   }
+  Serial.println(data);
 }
 void sendMove() { 
     int xValue = random(0,10);
@@ -49,12 +72,13 @@ void sendMove() {
     Serial.println("Sending:");
     Serial.println(moveJson);
     webSocketClient.sendData(moveJson);
+    delay(2000);
 }
 
 String createMove(int xValue, int yValue) {
-  String moveStringOne = "{\"move\":{\"x\":";
+  String moveStringOne = "{\"type\":\"move\",\"data\":{\"move\":{\"x\":";
   String moveStringTwo = ",\"y\":";
-  String moveStringThree =  "}}";
+  String moveStringThree =  "}}}";
   String fullMoveString = moveStringOne + xValue + moveStringTwo + yValue +moveStringThree;
   return fullMoveString;
 }
