@@ -1,8 +1,15 @@
 require 'sinatra'
 require 'haml'
+require 'thin'
 require 'sass/plugin/rack'
-require './main.rb'
+require './battle_ships_app'
+require './controllers/socket'
 
 Sass::Plugin.options[:style] = :compressed
 use Sass::Plugin::Rack
-# run BattleShips::App
+
+EM.run do
+  socket = MySocket.new
+  socket.start 2999
+  Thin::Server.start BattleShipsApp
+end
