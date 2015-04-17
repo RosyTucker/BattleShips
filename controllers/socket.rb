@@ -3,71 +3,43 @@ require_relative '../models/grid_position'
 require_relative '../models/move_result'
 require_relative '../models/player'
 require_relative '../models/boat'
-
+require_relative '../models/game'
+require_relative '../models/message_type'
 class MySocket
 
+  def initialize
+    @game = Game.new
+  end
+
   def start port
-
-    @players = Hash.new
-    @clients = []
-
     EM::WebSocket.start(:host => "0.0.0.0", :port => port) do |ws|
-      ws.onopen do
-        puts "Client Connected"
-        @clients << ws
-      end
+      ws.onopen do connect_client ws end
 
-      ws.onclose do
-        puts "Connection closed"
-      end
+      ws.onclose do @game.remove ws end
 
-      ws.onmessage  do |msg|
-        msgObj = JSON.parse(msg)
-        puts "Received message: #{msgObj['type']}"
-        case msgObj['type']
-          when 'register'
-            register msgObj['data'], ws
-          when 'move'
-            puts 'move'
-            move msgObj['data'], ws
-          else
-            puts 'Invalid request'
-        end
-      end
+      ws.onmessage  do |msg| direct_message JSON.parse(msg), ws end
     end
   end
 
   private
 
-  def move data, sender
-    grid_position = GridPosition.from_json_object data['move']
-    is_hit = check_if_hit #opponent, grid_position
-    move_result = MoveResult.new 0, grid_position, is_hit
-    @clients.each do |client|
-      if(client != sender)
-        client.send(move_result.to_json)
-      end
+  def direct_message message_json_object, sender_id
+    case message_json_object['type']
+
+      when MessageType.register
+        @game.add_player message_json_object['data'], sender_id
+
+      when MessageType.move
+        @game.make_move message_json_object['data'], sender_id
+
+      else
+        puts Strings.invalid_message_type
+
     end
   end
 
-  def register data, ws
-    boats_array = []
-    puts data
-    boats = data['boats']
-    boats.each do |boat_json_object|
-      boats_array << Boat.from_json_object(boat_json_object)
-    end
-    @players[ws] = Player.new @clients.length, boats_array
-    puts @players[ws].boats
+  def connect_client client
+    @game.add_spectator client
   end
 
-  def check_if_hit #opponent, grid_position
-    true
-    # opponent.boats.each do |boat|
-    #   if boat.contains grid_position
-    #     return true
-    #   end
-    # end
-    # false
-  end
 end
