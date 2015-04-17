@@ -29,6 +29,7 @@ void setup() {
 
 void loop() {
   if (client.connected()) {
+    digitalWrite(errorPin, LOW);
     if(digitalRead(buttonPin) == HIGH) {
       registered = false;
       return;
@@ -39,15 +40,15 @@ void loop() {
       registerAsPlayer();
       digitalWrite(transmitPin, LOW);
     } else {
-      digitalWrite(errorPin, LOW);
       digitalWrite(transmitPin, HIGH);
-      recieveMove();
       sendMove();
       digitalWrite(transmitPin, LOW);
+      recieveMove();
     }
   } else {
     Serial.println("Client disconnected.");
     digitalWrite(errorPin, HIGH);
+    setup();
   }
 }
 
