@@ -1,4 +1,9 @@
 require_relative 'strings'
+require_relative '../models/boat'
+require_relative '../models/player'
+require_relative '../models/grid_position'
+require_relative '../models/move_result'
+require_relative '../models/strings'
 
 class Game
 
@@ -9,6 +14,7 @@ class Game
 
   def add_spectator spectator_id
     @spectators << spectator_id
+    puts Strings.spectator_added
   end
 
   def add_player data, player_id
@@ -79,5 +85,4 @@ class Game
     end
     player
   end
-
 end

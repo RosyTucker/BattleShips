@@ -1,10 +1,7 @@
 require 'em-websocket'
-require_relative '../models/grid_position'
-require_relative '../models/move_result'
-require_relative '../models/player'
-require_relative '../models/boat'
 require_relative '../models/game'
 require_relative '../models/message_type'
+
 class MySocket
 
   def initialize

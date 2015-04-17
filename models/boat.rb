@@ -1,5 +1,4 @@
 require_relative 'grid_position'
-
 class Boat
 
   attr_reader :start_position
@@ -30,11 +29,10 @@ class Boat
   def contains_x(grid_position)
     (grid_position.x_pos <= @end_position.x_pos && grid_position.x_pos >= @start_position.x_pos) ||
         (grid_position.x_pos >= @end_position.x_pos && grid_position.x_pos <= @start_position.x_pos)
-    end
+  end
 
   def contains_y(grid_position)
     (grid_position.y_pos <= @end_position.y_pos && grid_position.y_pos >= @start_position.y_pos) ||
-    (grid_position.y_pos >= @end_position.y_pos && grid_position.y_pos <= @start_position.y_pos)
+        (grid_position.y_pos >= @end_position.y_pos && grid_position.y_pos <= @start_position.y_pos)
   end
-
 end
