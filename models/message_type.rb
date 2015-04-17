@@ -10,5 +10,4 @@ class MessageType
     end
 
   end
-
 end

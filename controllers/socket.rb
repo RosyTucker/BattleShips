@@ -10,11 +10,11 @@ class MySocket
 
   def start port
     EM::WebSocket.start(:host => "0.0.0.0", :port => port) do |ws|
-      ws.onopen do connect_client ws end
+      ws.onopen do @game.add_spectator ws end
 
       ws.onclose do @game.remove ws end
 
-      ws.onmessage  do |msg| direct_message JSON.parse(msg), ws end
+      ws.onmessage do |msg| direct_message JSON.parse(msg), ws end
     end
   end
 
@@ -33,10 +33,6 @@ class MySocket
         puts Strings.invalid_message_type
 
     end
-  end
-
-  def connect_client client
-    @game.add_spectator client
   end
 
 end
