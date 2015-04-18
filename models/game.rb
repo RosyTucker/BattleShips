@@ -37,11 +37,11 @@ class Game
 
   def make_move data, sender_id
     unless @ready
-      puts Strings.game_not_reader @players[sender_id]
+      puts Strings.game_not_reader @players[sender_id].number
       return
     end
     unless @players[sender_id].number == @player_whose_turn_it_is
-      puts 'It\'s not your turn player: ' + @players[sender_id].number.to_s
+      puts Strings.not_players_turn @players[sender_id].number
       return
     end
     opponent = opponent_from_sender sender_id
@@ -88,7 +88,7 @@ class Game
   def notify_players_ready
     first = rand @players.length
     @player_whose_turn_it_is = first
-    puts 'Player: ' + @player_whose_turn_it_is.to_s + ' will go first'
+    puts Strings.players_turn @player_whose_turn_it_is
     @players.keys.each do |player_id|
         data = '{"type": "ready", "data":{"first":' + (@players[player_id].number == first).to_s + '}}'
         player_id.send(data)
