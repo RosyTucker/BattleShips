@@ -18,10 +18,16 @@ class Game
   end
 
   def add_player data, player_id
-    player_boats = create_boats data
-    new_player = Player.new @players.length, player_boats
-    @players[player_id] = new_player
-    puts Strings.registered_player new_player.number
+    if @players.length < 2
+      player_boats = create_boats data
+      new_player = Player.new @players.length, player_boats
+      @players[player_id] = new_player
+      puts Strings.registered_player new_player.number
+      if @players.length == 2
+        @ready = true
+        notify_players_ready
+      end
+    end
   end
 
   def remove id
@@ -30,10 +36,19 @@ class Game
   end
 
   def make_move data, sender_id
+    unless @ready
+      puts Strings.game_not_reader @players[sender_id]
+      return
+    end
+    unless @players[sender_id].number == @player_whose_turn_it_is
+      puts 'It\'s not your turn player: ' + @players[sender_id].number.to_s
+      return
+    end
     opponent = opponent_from_sender sender_id
     grid_position = GridPosition.from_json_object data['move']
     is_hit = check_if_hit opponent, grid_position
     move_result = MoveResult.new opponent.number, grid_position, is_hit
+    @player_whose_turn_it_is = opponent.number
     notify_spectators(sender_id, move_result.to_json)
   end
 
@@ -68,6 +83,16 @@ class Game
       end
     end
     false
+  end
+
+  def notify_players_ready
+    first = rand @players.length
+    @player_whose_turn_it_is = first
+    puts 'Player: ' + @player_whose_turn_it_is.to_s + ' will go first'
+    @players.keys.each do |player_id|
+        data = '{"type": "ready", "data":{"first":' + (@players[player_id].number == first).to_s + '}}'
+        player_id.send(data)
+      end
   end
 
   def notify_spectators sender, data

@@ -22,7 +22,6 @@ class MySocket
 
   def direct_message message_json_object, sender_id
     case message_json_object['type']
-
       when MessageType.register
         @game.add_player message_json_object['data'], sender_id
 

@@ -20,4 +20,8 @@ class Strings
       'Invalid request type or no type given'
     end
 
+    def self.game_not_reader sender
+      'Game not ready, player: ' + sender.number.to_s + ' is being naughty'
+    end
+
 end
