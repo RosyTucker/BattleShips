@@ -36,23 +36,26 @@ class Game
   end
 
   def make_move data, sender_id
-    unless @ready
-      puts Strings.game_not_reader @players[sender_id].number
-      return
+    if valid_sender sender_id
+      puts Strings.move_made
+      opponent = opponent_from_sender sender_id
+      grid_position = GridPosition.from_json_object data['move']
+      is_hit = check_if_hit opponent, grid_position
+      move_result = MoveResult.new opponent.number, grid_position, is_hit
+      @player_whose_turn_it_is = opponent.number
+      notify_spectators(move_result.to_json)
     end
-    unless @players[sender_id].number == @player_whose_turn_it_is
-      puts Strings.not_players_turn @players[sender_id].number
-      return
-    end
-    opponent = opponent_from_sender sender_id
-    grid_position = GridPosition.from_json_object data['move']
-    is_hit = check_if_hit opponent, grid_position
-    move_result = MoveResult.new opponent.number, grid_position, is_hit
-    @player_whose_turn_it_is = opponent.number
-    notify_spectators(sender_id, move_result.to_json)
   end
 
   private
+
+  def valid_sender sender_id
+    if @players.has_key?(sender_id) && @ready && @players[sender_id].number == @player_whose_turn_it_is
+      return true
+    end
+    puts Strings.invalid_move_made sender_id
+    false
+  end
 
   def remove_spectator id
     if @spectators.include? id
@@ -90,16 +93,17 @@ class Game
     @player_whose_turn_it_is = first
     puts Strings.players_turn @player_whose_turn_it_is
     @players.keys.each do |player_id|
-        data = '{"type": "ready", "data":{"first":' + (@players[player_id].number == first).to_s + '}}'
-        player_id.send(data)
-      end
+      player_id.send(ready_message(@players[player_id].number == first))
+    end
   end
 
-  def notify_spectators sender, data
+  def ready_message is_first
+    is_first.to_s
+  end
+
+  def notify_spectators data
     @spectators.each do |spectator|
-      if spectator != sender
         spectator.send(data)
-      end
     end
   end
 

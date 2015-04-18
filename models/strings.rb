@@ -20,16 +20,16 @@ class Strings
       'Invalid request type or no type given'
     end
 
-    def self.game_not_reader player_number
-      'Game not ready, player: ' + player_number.to_s + ' is being naughty'
-    end
-
-    def self.not_players_turn  player_number
-      'It\'s not your turn player: ' + player_number.to_s
-    end
-
     def self.players_turn player_number
       'Player: ' + player_number.to_s + ' will go first'
+    end
+
+    def self.invalid_move_made player_number
+      'Player: ' + player_number.to_s + ' made an invalid move'
+    end
+
+    def self.move_made
+      'Move Made'
     end
 
 end
