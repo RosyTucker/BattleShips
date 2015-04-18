@@ -30,20 +30,21 @@ void setup() {
 void loop() {
   if (client.connected()) {
     digitalWrite(errorPin, LOW);
-    if(digitalRead(buttonPin) == HIGH) {
-      registered = false;
-      return;
-    }
     if(!registered) {
       Serial.println("Printing");
       digitalWrite(transmitPin, HIGH);
       registerAsPlayer();
+      String isFirst = recieveData();
+      if(isFirst == "false"){
+        String otherPlayersMove = recieveData();
+      }
       digitalWrite(transmitPin, LOW);
     } else {
       digitalWrite(transmitPin, HIGH);
       sendMove();
+      String result = recieveData();
       digitalWrite(transmitPin, LOW);
-      recieveMove();
+      String otherPlayersMove = recieveData();
     }
   } else {
     Serial.println("Client disconnected.");
@@ -59,12 +60,13 @@ void registerAsPlayer() {
   registered = true;
 }
 
-void recieveMove() {
+String recieveData() {
   String data;
   while (data.length() <= 0) {
       webSocketClient.getData(data);
   }
   Serial.println(data);
+  return data;
 }
 void sendMove() { 
     int xValue = random(0,10);
