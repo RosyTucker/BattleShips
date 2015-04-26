@@ -46,7 +46,7 @@ class Game
       notify_spectators(move_result.to_json)
       if opponent.has_lost
         puts 'game over'
-        notify_spectators "game over"
+        notify_spectators "{\"type\": \"gameOver\",\"data\": {}}"
       end
     end
   end
@@ -106,7 +106,7 @@ class Game
   end
 
   def ready_message is_first
-    is_first.to_s
+    "{\"type\": \"start\", \"data\": {\"isFirst\": #{is_first.to_s}}}"
   end
 
   def notify_spectators data
