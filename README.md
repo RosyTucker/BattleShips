@@ -29,16 +29,17 @@ You Need:
 3. Open the web page before starting your Arduino in order see the game as it is played.
 
 ##Setup - Arduino
-1. Open the sample Battleships.ino file provided
-2. In the top menu use Sketch > Import Library > Add Library to import the two provided libraries:
+1. Download the [Arduino Environment](http://www.arduino.cc/en/Main/Software)
+2. Open the sample Arduino file: Arduino > Battleships.ino file provided
+3. In the top menu use Sketch > Import Library > Add Library to import the two provided libraries:
 
     * Arduino-WebSocket
     * ArduinoJson
 
-3. Change the `hostString[]` and `server[]` variables to match your IP address
+4. Change the `hostString[]` and `server[]` variables to match your IP address
 (or the where ever you are running the server, if not locally)
 
-4. You should now be able to upload the sketch to your Arduino.
+5. You should now be able to upload the sketch to your Arduino.
 
     * Make sure you have selected the correct board and port under the Tools menu.
 
