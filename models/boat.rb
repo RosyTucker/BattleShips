@@ -8,7 +8,6 @@ class Boat
     @hits = Array.new(@length)
   end
 
-
   def sunk
    @hits.each do |hit|
      unless hit
@@ -21,16 +20,12 @@ class Boat
   def mark_hit grid_position
     case @direction
       when 'N'
-        puts 'Hit N :' + (@start_position.y_pos - grid_position.y_pos).to_s
         @hits[@start_position.y_pos - grid_position.y_pos] = true
       when 'E'
-        puts 'Hit E :' + (grid_position.x_pos - @start_position.x_pos).to_s
         @hits[grid_position.x_pos - @start_position.x_pos] = true
       when 'S'
-        puts 'Hit S :' + (grid_position.y_pos - @start_position.y_pos).to_s
         @hits[grid_position.y_pos - @start_position.y_pos] = true
       when 'W'
-        puts 'Hit S :' + (@start_position.x_pos - grid_position.x_pos).to_s
         @hits[@start_position.x_pos - grid_position.x_pos] = true
       else
     end
