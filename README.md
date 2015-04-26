@@ -15,6 +15,8 @@ There are three possible results of a move:
 
 When One player sinks all the ships of another a game over message will be sent from the server
 
+Error handling isn't so great right now so just restart is something goes badly wrong.
+
 ##Setup - Server
 
 You Need:
