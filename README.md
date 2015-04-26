@@ -29,7 +29,7 @@ You Need:
 3. Open the web page before starting your Arduino in order see the game as it is played.
 
 ##Setup - Arduino
-1. Download the [Arduino Environment](http://www.arduino.cc/en/Main/Software)
+1. Download and run the [Arduino Environment](http://www.arduino.cc/en/Main/Software)
 2. Open the sample Arduino file: Arduino > Battleships.ino file provided
 3. In the top menu use Sketch > Import Library > Add Library to import the two provided libraries:
 
