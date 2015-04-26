@@ -54,7 +54,7 @@ void loop() {
 }
 
 void registerAsPlayer() {
-  String registration = "{\"type\":\"register\",\"data\":{\"boats\":[{\"s\":\"2,3\",\"e\":\"4,5\"},{\"s\":\"8,8\",\"e\":\"8,9\"}]}}";
+  String registration = "{\"type\":\"register\",\"data\":{\"boats\":[{\"start\":\"2,3\", \"length\": 3, \"direction\": \"S\"}, {\"start\":\"5,6\", \"length\": 5, \"direction\": \"N\"}]}}";
   webSocketClient.sendData(registration);
   delay(2000);
   registered = true;
