@@ -24,14 +24,10 @@ class MySocket
     case message_json_object['type']
       when MessageType.register
         @game.add_player message_json_object['data'], sender_id
-
       when MessageType.move
         @game.make_move message_json_object['data'], sender_id
-
       else
         puts Strings.invalid_message_type
-
     end
   end
-
 end
