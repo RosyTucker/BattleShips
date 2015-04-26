@@ -12,7 +12,7 @@ class GridPosition
   end
 
   def to_json *options
-    { :xPos => @x_pos, :yPos => @y_pos }.to_json
+    { :x => @x_pos, :y => @y_pos }.to_json
   end
 
 end

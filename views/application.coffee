@@ -18,8 +18,8 @@ $ ->
 handleMove = (data) ->
   console.log(data)
   move = JSON.parse(data)
-  $('#xValue' + (move.opponentNumber + 1) % 2).text(move.gridPosition.xPos)
-  $('#yValue' + (move.opponentNumber + 1) % 2).text(move.gridPosition.yPos)
+  $('#xValue' + (move.opponentNumber + 1) % numPlayers).text(move.gridPosition.x)
+  $('#yValue' + (move.opponentNumber + 1) % numPlayers).text(move.gridPosition.y)
   colourSquare(move)
 
 resizeCanvas = (canvas) ->
@@ -31,9 +31,8 @@ createDrawingContext = (canvas) ->
 
 colourSquare = (move, context) ->
   context = createDrawingContext(canvasList[move.opponentNumber])
-  console.log(move)
   switch move.hitType
     when "miss" then context.fillStyle = '#CC4455'
     when "sunk","hit" then context.fillStyle = '#0e8f47'
     else
-  context.fillRect move.gridPosition.xPos * cellSize, move.gridPosition.yPos * cellSize, cellSize, cellSize
+  context.fillRect move.gridPosition.x * cellSize, move.gridPosition.y * cellSize, cellSize, cellSize
