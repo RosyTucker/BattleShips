@@ -26,15 +26,18 @@ Open the webpage before starting your Arduino in order see the game as it is pla
 
 
 ##Setup - Arduino
-Open the sample Battleships.ino file provided
-In the top menu use Sketch > Import Library > Add Library to import the two provided libraries:
+1. Open the sample Battleships.ino file provided
+2. In the top menu use Sketch > Import Library > Add Library to import the two provided libraries:
 
-* Arduino-WebSocket
-* ArduinoJson
+    * Arduino-WebSocket
+    * ArduinoJson
 
-You should now be able to upload the sketch to your Arduino.
+3. Change the `hostString[]` and `server[]` variables to match your IP address
+(or the where ever you are running the server, if not locally)
 
-* Make sure you have selected the correct board and port under the Tools menu.
+4. You should now be able to upload the sketch to your Arduino.
+
+    * Make sure you have selected the correct board and port under the Tools menu.
 
 ## Mock the Arduino
 If you only have one Arduino it will be very hard for you to test your solution, I recommend using `curl`
