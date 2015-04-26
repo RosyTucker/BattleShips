@@ -16,14 +16,17 @@ There are three possible results of a move:
 When One player sinks all the ships of another a game over message will be sent from the server
 
 ##Setup - Server
-To run the server navigate to the project directory in your terminal and run:
 
-`thin start`
+You Need:
 
-This will start the server at: `http://localhost:3000`, and open a websocket on port `2999`.
+ * Ruby
+ * [Bundler](http://bundler.io)
 
-Open the webpage before starting your Arduino in order see the game as it is played.
-
+1. Download this repository
+3. Run `bundle install`
+2. Run the server by navigating to the project directory in your terminal and running: `thin start`
+    * This will start the server at: `http://localhost:3000`, and open a websocket on port `2999`.
+3. Open the web page before starting your Arduino in order see the game as it is played.
 
 ##Setup - Arduino
 1. Open the sample Battleships.ino file provided
