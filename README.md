@@ -31,6 +31,8 @@ You Need:
 ##Setup - Arduino
 1. Download and run the [Arduino Environment](http://www.arduino.cc/en/Main/Software)
 2. Open the sample Arduino file: _Arduino > Battleships.ino_ file provided
+    * Some newer versions of the Arduino environment seem to dramitacally fail at opening the included file.
+    If this happens just copy the content into a new Arduino sketch.
 3. In the top menu use: _Sketch > Import Library > Add .ZIP Library_ to import the two provided libraries:
 
     * Arduino-WebSocket
