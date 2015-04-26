@@ -1,4 +1,4 @@
 ##Setup:
 
 Use rackup or thin server to start
-Use sass '--watch styles.scss:../styles.css' to watch for sass updates
+Use sass '--watch styles.scss:../styles.css' to watch for sass updates from the sass directory
