@@ -45,8 +45,9 @@ class Game
       @player_whose_turn_it_is = opponent.number
       notify_spectators(move_result.to_json)
       if opponent.has_lost
-        puts 'game over'
-        notify_spectators "{\"type\": \"gameOver\",\"data\": {}}"
+        puts Strings.game_over
+        notify_spectators "{\"type\": \"gameOver\",\"data\": {\"winner\": #{@players[sender_id].number}}}"
+        @players = Hash.new
       end
     end
   end

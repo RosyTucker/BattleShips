@@ -4,7 +4,8 @@ socket = new WebSocket WEB_SOCKET_URL
 socket.onopen = () ->
   console.log("Open")
 socket.onmessage = (e) ->
-  handleMove e.data
+  message = JSON.parse(e.data)
+  if message.type == 'moveResult' then handleMove message.data else gameOver message.data
 socket.onclose = () -> console.log 'socket closed'
 cellSize = 40
 gridSize = 10
@@ -15,12 +16,14 @@ $ ->
   canvasList = $('canvas[id^="board-canvas"]')
   resizeCanvas(aCanvas) for aCanvas in canvasList
 
-handleMove = (data) ->
-  console.log(data)
-  move = JSON.parse(data)
+handleMove = (move) ->
   $('#xValue' + (move.opponentNumber + 1) % numPlayers).text(move.gridPosition.x)
   $('#yValue' + (move.opponentNumber + 1) % numPlayers).text(move.gridPosition.y)
   colourSquare(move)
+
+gameOver = (data) ->
+  console.log("game over")
+  $('#winner').text("Winner is Player: " + (data.winner + 1 % numPlayers))
 
 resizeCanvas = (canvas) ->
   canvas.height = cellSize * gridSize

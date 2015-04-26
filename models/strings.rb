@@ -32,4 +32,8 @@ class Strings
       'Move Made'
     end
 
+    def self.game_over
+      'Game Over'
+    end
+
 end

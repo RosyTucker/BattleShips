@@ -7,7 +7,7 @@ class MoveResult
   end
 
   def to_json *options
-    { :opponentNumber => @opponent_number, :gridPosition => @grid_position, :hitType => @hit_type }.to_json
+    { :type => 'moveResult', :data => { :opponentNumber => @opponent_number, :gridPosition => @grid_position, :hitType => @hit_type }}.to_json
   end
 
 end
