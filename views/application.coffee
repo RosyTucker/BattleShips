@@ -9,33 +9,31 @@ socket.onclose = () -> console.log 'socket closed'
 cellSize = 40
 gridSize = 10
 numPlayers = 2
-canvas = null
+canvasList = null
 
 $ ->
-  canvas = $('#board-canvas')[0]
-  resizeCanvas(canvas)
+  canvasList = $('canvas[id^="board-canvas"]')
+  resizeCanvas(aCanvas) for aCanvas in canvasList
 
 handleMove = (data) ->
   console.log(data)
   move = JSON.parse(data)
-  $('#xValue' + move.opponentNumber).text(move.gridPosition.xPos)
-  $('#yValue' + move.opponentNumber).text(move.gridPosition.yPos)
+  $('#xValue' + (move.opponentNumber + 1) % 2).text(move.gridPosition.xPos)
+  $('#yValue' + (move.opponentNumber + 1) % 2).text(move.gridPosition.yPos)
   colourSquare(move)
 
 resizeCanvas = (canvas) ->
-  console.log('resizing: ' + canvas)
   canvas.height = cellSize * gridSize
-  canvas.width = cellSize * gridSize * numPlayers
+  canvas.width = cellSize * gridSize
 
 createDrawingContext = (canvas) ->
   return canvas.getContext '2d'
 
 colourSquare = (move, context) ->
-  context = createDrawingContext(canvas)
+  context = createDrawingContext(canvasList[move.opponentNumber])
   console.log(move)
   switch move.hitType
     when "miss" then context.fillStyle = '#CC4455'
     when "sunk","hit" then context.fillStyle = '#0e8f47'
     else
-  xPos = move.gridPosition.xPos + gridSize * move.opponentNumber
-  context.fillRect xPos * cellSize, move.gridPosition.yPos * cellSize, cellSize, cellSize
+  context.fillRect move.gridPosition.xPos * cellSize, move.gridPosition.yPos * cellSize, cellSize, cellSize

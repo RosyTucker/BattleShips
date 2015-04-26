@@ -3,12 +3,27 @@
   %head
     %title BattleShips
     %link{:rel => 'stylesheet', :type => 'text/css', :href => '/stylesheets/styles.css'}
+    %link{:rel => 'stylesheet', :type => 'text/css', :href => '//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css'}
     %script(src='//code.jquery.com/jquery-1.11.2.min.js')
     %script(src='application.js')
   %body
-    %h1.title It's Game Time
-    %p#xValue0
-    %p#yValue0
-    %p#xValue1
-    %p#yValue1
-    %canvas#board-canvas
+    %h1.text-center It's Game Time
+    %div.col-sm-12
+      %div.col-sm-6.text-center
+        %h2 Player 1's Board
+        %p
+          Last Move Made By Player 2: (
+          %span#xValue1
+          ,
+          %span#yValue1
+          )
+        %canvas#board-canvas0
+      %div.col-sm-6.text-center
+        %h2 Player 2's Last
+        %p
+          Last Move Made By Player 1: (
+          %span#xValue0
+          ,
+          %span#yValue0
+          )
+        %canvas#board-canvas1

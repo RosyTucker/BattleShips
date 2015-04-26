@@ -1,4 +1,5 @@
 $green: #0e8f47;
+$blue: #25becd;
 $pink: #ff2564;
 
 $font: 'Open Sans', 'sans-serif';
@@ -16,7 +17,7 @@ body{
     color: $pink;
   }
 
-  #board-canvas{
-    background-color: $pink;
+  canvas[id^="board-canvas"] {
+    background-color: $blue;
   }
 }
