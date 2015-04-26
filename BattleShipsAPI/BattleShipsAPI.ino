@@ -1,3 +1,4 @@
+#include <ArduinoJson.h>
 #include <SPI.h>
 #include <Ethernet.h>
 #include <WebSocketClient.h>
@@ -17,6 +18,7 @@ byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xBC, 0xAA };
 
 // Game
 bool registered = false;
+char trueString[] = "true";
 
 void setup() {
   pinMode(transmitPin, OUTPUT);
@@ -34,8 +36,7 @@ void loop() {
       Serial.println("Printing");
       digitalWrite(transmitPin, HIGH);
       registerAsPlayer();
-      String isFirst = recieveData();
-      if(isFirst == "false"){
+      if(!getIsFirstFromStartMessage(recieveData())){
         String otherPlayersMove = recieveData();
       }
       digitalWrite(transmitPin, LOW);
@@ -59,6 +60,11 @@ void registerAsPlayer() {
   delay(2000);
   registered = true;
 }
+
+
+/******************************************/
+/*             Game Helpers              */
+/******************************************/
 
 String recieveData() {
   String data;
@@ -84,6 +90,19 @@ String createMove(int xValue, int yValue) {
   String moveStringThree =  "}}}";
   String fullMoveString = moveStringOne + xValue + moveStringTwo + yValue +moveStringThree;
   return fullMoveString;
+}
+
+char* stringToCharArray(String string) {
+  char charBuf[100];
+  string.toCharArray(charBuf, 100);
+}
+
+bool getIsFirstFromStartMessage(String startMessageJson) {
+  StaticJsonBuffer<200> jsonBuffer;
+  JsonObject &root = jsonBuffer.parseObject(stringToCharArray(startMessageJson));
+  bool isFirst = root["data"]["isFirst"];
+  Serial.println(isFirst);
+  return isFirst;
 }
 
 /******************************************/
