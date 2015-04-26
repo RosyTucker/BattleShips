@@ -39,7 +39,7 @@ class Game
     if valid_sender sender_id
       puts Strings.move_made
       opponent = opponent_from_sender sender_id
-      grid_position = GridPosition.from_json_object data['move']
+      grid_position = GridPosition.from_json_object data
       hit_type = check_if_hit opponent, grid_position
       move_result = MoveResult.new opponent.number, grid_position, hit_type
       @player_whose_turn_it_is = opponent.number

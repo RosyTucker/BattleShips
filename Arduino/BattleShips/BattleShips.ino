@@ -82,9 +82,9 @@ void sendMove() {
 }
 
 String createMove(int xValue, int yValue) {
-  String moveStringOne = "{\"type\":\"move\",\"data\":{\"move\":{\"x\":";
+  String moveStringOne = "{\"type\":\"move\",\"data\":{\"x\":";
   String moveStringTwo = ",\"y\":";
-  String moveStringThree =  "}}}";
+  String moveStringThree =  "}}";
   String fullMoveString = moveStringOne + xValue + moveStringTwo + yValue +moveStringThree;
   return fullMoveString;
 }
