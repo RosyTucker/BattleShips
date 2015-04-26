@@ -40,10 +40,14 @@ You Need:
     * Arduino-WebSocket
     * ArduinoJson
 
-4. Change the `hostString[]` and `server[]` variables to match your IP address
+4. Connect the ethernet shield to the Arduino and to the network
+5. Plug in the Arduino USB
+6. Change the `hostString[]` and `server[]` variables to match your IP address
+7. Change the last four sections of the `mac[]` variable to either something random,
+or the Mac address that came with your ethernet shield
 (or the where ever you are running the server, if not locally)
 
-5. You should now be able to upload the sketch to your Arduino.
+8. You should now be able to upload the sketch to your Arduino.
 
     * Make sure you have selected the correct board and port under the Tools menu.
 
