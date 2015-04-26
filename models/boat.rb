@@ -5,6 +5,50 @@ class Boat
     @start_position = start_position
     @length = length
     @direction = direction
+    @hits = Array.new(@length)
+  end
+
+
+  def sunk
+   @hits.each do |hit|
+     unless hit
+       return false
+     end
+   end
+   true
+  end
+
+  def mark_hit grid_position
+    case @direction
+      when 'N'
+        puts 'Hit N :' + (@start_position.y_pos - grid_position.y_pos).to_s
+        @hits[@start_position.y_pos - grid_position.y_pos] = true
+      when 'E'
+        puts 'Hit E :' + (grid_position.x_pos - @start_position.x_pos).to_s
+        @hits[grid_position.x_pos - @start_position.x_pos] = true
+      when 'S'
+        puts 'Hit S :' + (grid_position.y_pos - @start_position.y_pos).to_s
+        @hits[grid_position.y_pos - @start_position.y_pos] = true
+      when 'W'
+        puts 'Hit S :' + (@start_position.x_pos - grid_position.x_pos).to_s
+        @hits[@start_position.x_pos - grid_position.x_pos] = true
+      else
+    end
+  end
+
+  def contains grid_position
+    case @direction
+      when 'E'
+        (grid_position.x_pos >= @start_position.x_pos && grid_position.x_pos < @start_position.x_pos + @length) && grid_position.y_pos == @start_position.y_pos
+      when 'W'
+        (grid_position.x_pos <= @start_position.x_pos && grid_position.x_pos > @start_position.x_pos - @length) && grid_position.y_pos == @start_position.y_pos
+      when 'N'
+        (grid_position.y_pos <= @start_position.y_pos && grid_position.y_pos > @start_position.y_pos - @length) && grid_position.x_pos == @start_position.x_pos
+      when 'S'
+        (grid_position.y_pos >= @start_position.y_pos && grid_position.y_pos < @start_position.y_pos + @length) && grid_position.x_pos == @start_position.x_pos
+      else
+        false
+    end
   end
 
   def self.from_json_object json_object
@@ -15,18 +59,4 @@ class Boat
     Boat.new start_position, length, direction
   end
 
-  def contains grid_position
-    case @direction
-      when 'E'
-        (grid_position.x_pos >= @start_position.x_pos && grid_position.x_pos < @start_position.x_pos + @length)
-      when 'W'
-        (grid_position.x_pos <= @start_position.x_pos && grid_position.x_pos > @start_position.x_pos - @length)
-      when 'N'
-        (grid_position.y_pos <= @start_position.y_pos && grid_position.y_pos > @start_position.y_pos - @length)
-      when 'S'
-        (grid_position.y_pos >= @start_position.y_pos && grid_position.y_pos < @start_position.y_pos + @length)
-      else
-        false
-    end
-  end
 end

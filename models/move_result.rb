@@ -1,13 +1,13 @@
 class MoveResult
 
-  def initialize opponent_number, grid_position, is_hit
+  def initialize opponent_number, grid_position, hit_type
     @opponent_number = opponent_number
     @grid_position = grid_position
-    @is_hit = is_hit
+    @hit_type = hit_type
   end
 
   def to_json *options
-    { :opponentNumber => @opponent_number, :gridPosition => @grid_position, :isHit => @is_hit }.to_json
+    { :opponentNumber => @opponent_number, :gridPosition => @grid_position, :hitType => @hit_type }.to_json
   end
 
 end

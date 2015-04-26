@@ -33,6 +33,9 @@ createDrawingContext = (canvas) ->
 colourSquare = (move, context) ->
   context = createDrawingContext(canvas)
   console.log(move)
-  context.fillStyle = if move.isHit then '#0e8f47' else '#CC4455'
+  switch move.hitType
+    when "miss" then context.fillStyle = '#CC4455'
+    when "sunk","hit" then context.fillStyle = '#0e8f47'
+    else
   xPos = move.gridPosition.xPos + gridSize * move.opponentNumber
   context.fillRect xPos * cellSize, move.gridPosition.yPos * cellSize, cellSize, cellSize

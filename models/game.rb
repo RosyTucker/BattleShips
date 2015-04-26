@@ -40,10 +40,14 @@ class Game
       puts Strings.move_made
       opponent = opponent_from_sender sender_id
       grid_position = GridPosition.from_json_object data['move']
-      is_hit = check_if_hit opponent, grid_position
-      move_result = MoveResult.new opponent.number, grid_position, is_hit
+      hit_type = check_if_hit opponent, grid_position
+      move_result = MoveResult.new opponent.number, grid_position, hit_type
       @player_whose_turn_it_is = opponent.number
       notify_spectators(move_result.to_json)
+      if opponent.has_lost
+        puts 'game over'
+        notify_spectators "game over"
+      end
     end
   end
 
@@ -82,10 +86,14 @@ class Game
   def check_if_hit opponent, grid_position
     opponent.boats.each do |boat|
       if boat.contains grid_position
-        return true
+        boat.mark_hit grid_position
+        if boat.sunk
+          return 'sunk'
+        end
+        return 'hit'
       end
     end
-    false
+    'miss'
   end
 
   def notify_players_ready
