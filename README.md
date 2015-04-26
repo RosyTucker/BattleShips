@@ -30,8 +30,8 @@ You Need:
 
 ##Setup - Arduino
 1. Download and run the [Arduino Environment](http://www.arduino.cc/en/Main/Software)
-2. Open the sample Arduino file: Arduino > Battleships.ino file provided
-3. In the top menu use Sketch > Import Library > Add Library to import the two provided libraries:
+2. Open the sample Arduino file: _Arduino > Battleships.ino_ file provided
+3. In the top menu use: _Sketch > Import Library > Add .ZIP Library_ to import the two provided libraries:
 
     * Arduino-WebSocket
     * ArduinoJson
