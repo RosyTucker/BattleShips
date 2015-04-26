@@ -4,9 +4,9 @@
 #include <WebSocketClient.h>
 
 //Server
-byte server[] = { 10,93,20,76 };
+byte server[] = { 192,168, 0, 8 };
 int port = 2999;
-char hostString[] = "10.93.20.76:2999";
+char hostString[] = "192.168.0.8:2999";
 EthernetClient client;
 WebSocketClient webSocketClient;
 
