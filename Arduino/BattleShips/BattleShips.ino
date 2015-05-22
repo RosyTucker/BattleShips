@@ -3,17 +3,18 @@
 #include <Ethernet.h>
 #include <WebSocketClient.h>
 
-//Server
-byte server[] = { 192,168, 0, 8 };
+//Server - CHANGE THESE
+byte server[] = { 192,168, 0, 2 };
 int port = 2999;
-char hostString[] = "192.168.0.8:2999";
+char hostString[] = "192.168.0.2:2999";
+
 EthernetClient client;
 WebSocketClient webSocketClient;
 
 //Arduino
-int transmitPin = 2;  // Connent an LED to this pin
+int transmitPin = 2;  // Connect an LED to this pin
 int errorPin = 8;    // Connect an LED to this pin 
-byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xBC, 0xAA }; //CHANGE THIS
+byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xBC, 0xDA }; //CHANGE THIS
 
 // Game
 bool registered = false;
