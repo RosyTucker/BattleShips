@@ -37,7 +37,7 @@ class Game
 
   def make_move data, sender_id
     if valid_sender sender_id
-      puts Strings.move_made
+      puts Strings.move_made sender_id
       opponent = opponent_from_sender sender_id
       grid_position = GridPosition.from_json_object data
       hit_type = check_if_hit opponent, grid_position

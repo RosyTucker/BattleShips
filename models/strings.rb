@@ -28,8 +28,8 @@ class Strings
       'Player: ' + player_number.to_s + ' made an invalid move'
     end
 
-    def self.move_made
-      'Move Made'
+    def self.move_made sender
+      'Move Made by ' + sender.to_s
     end
 
     def self.game_over
